@@ -3,9 +3,6 @@ import random
 
 
 def heuristic(board, pos, ai_player, player):
-    if pos == (1, 1):
-        return 5
-
     x, y = pos
 
     test_board = [row.copy() for row in board]  # Create a copy of the board
@@ -18,6 +15,12 @@ def heuristic(board, pos, ai_player, player):
     test_board[x][y] = player 
     if check_win(test_board, ai_player) == "loss":
         return 99 
+
+    if pos == (1, 1):
+        return 2
+
+    if pos == (0, 0) or pos == (2, 2) or pos == (0, 2) or pos == (2, 0):
+        return 1
 
     return 0
 
@@ -88,7 +91,6 @@ class Fronteir():
 
 class Board:
     def __init__(self, player):
-        self.moves_made = 0
         self.board = [["+", "+", "+",],
                       ["+", "+", "+",],
                       ["+", "+", "+",]]
@@ -101,7 +103,7 @@ class Board:
             raise Exception("You must enter if you are X or O")
 
         self.player = player
-
+        self.moves_made = 0
 
     def game_over(self):
         for i in range(3):
@@ -125,9 +127,10 @@ class Board:
                 if space == "+":
                     return False
 
+        self.print_board()
         print("Draw")
         return True 
-        
+
 
     def print_board(self):
         for row in self.board:
