@@ -183,5 +183,6 @@ class Board:
 
 
     
-board = Board(argv[1])
-board.play()
+if __name__ == "__main__":
+    board = Board(argv[1])
+    board.play()
