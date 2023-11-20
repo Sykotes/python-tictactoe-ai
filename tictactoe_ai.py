@@ -104,10 +104,6 @@ class Board:
 
 
     def game_over(self):
-        if self.moves_made == 9:
-            print("Draw")
-            return True
-
         for i in range(3):
             if self.board[i][0] == self.board[i][1] == self.board[i][2] != "+":
                 print(f"{self.board[i][0]} is the winner")
@@ -124,7 +120,13 @@ class Board:
                 print(f"{self.board[0][2]} is the winner")
                 return True
 
-        return False 
+        for row in self.board:
+            for space in row:
+                if space == "+":
+                    return False
+
+        print("Draw")
+        return True 
         
 
     def print_board(self):
