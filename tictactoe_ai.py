@@ -14,10 +14,10 @@ def heuristic(board, pos, ai_player, player):
     test_board = [row.copy() for row in board]  # Create a copy of the board
     test_board[x][y] = player 
     if check_win(test_board, ai_player) == "loss":
-        return 99 
+        return 98 
 
     if pos == (1, 1):
-        return 2
+        return 1
 
     if pos == (0, 0) or pos == (2, 2) or pos == (0, 2) or pos == (2, 0):
         return 1
@@ -44,7 +44,7 @@ def check_win(test_board, ai_player):
             else:
                 return "loss"
         if test_board[0][2] == test_board[1][1] == test_board[2][0] != "+":
-            if test_board[0][0] == ai_player:
+            if test_board[0][2] == ai_player:
                 return "win"
             else:
                 return "loss"
@@ -80,13 +80,12 @@ class Fronteir():
             node = self.fronteir.pop(-1)
             return node
 
+
     def remove(self, xcoord, ycoord):
         if self.empty():
             raise Exception("empty fronteir")
         else:
-            for node in self.fronteir:
-                if node.pos == (xcoord-1, ycoord-1):
-                    self.fronteir.remove(node)
+            self.fronteir = [node for node in self.fronteir if node.pos != (xcoord-1, ycoord-1)]
 
 
 class Board:
@@ -127,12 +126,12 @@ class Board:
                 if space == "+":
                     return False
 
-        self.print_board()
         print("Draw")
         return True 
 
 
     def print_board(self):
+        print()
         for row in self.board:
             for space in row:
                 print(space, end="")
@@ -140,6 +139,7 @@ class Board:
 
 
     def play_move(self):
+        self.fronteir.fronteir = []
         if self.game_over():
             return
         for i in range(3):
@@ -183,6 +183,5 @@ class Board:
 
 
     
-if __name__ == "__main__":
-    board = Board(argv[1])
-    board.play()
+board = Board(argv[1])
+board.play()
